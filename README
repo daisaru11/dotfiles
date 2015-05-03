@@ -1,0 +1,9 @@
+
+
+
+#
+
+	brew update
+	brew install ansible
+
+	ansible-playbook playbook.yml -i hosts

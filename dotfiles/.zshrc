@@ -1,0 +1,269 @@
+## Default shell configuration
+#
+# set prompt
+
+
+## functions
+#
+autoload -Uz VCS_INFO_get_data_git; VCS_INFO_get_data_git 2> /dev/null
+setopt prompt_subst
+
+function prompt-git-current-branch {
+	local name st color gitdir action
+	if [[ "$PWD" =~ '/\.git(/.*)?$' ]]; then
+		return
+	fi
+
+	name=`git rev-parse --abbrev-ref=loose HEAD 2> /dev/null`
+	if [[ -z $name ]]; then
+		return
+	fi
+
+	gitdir=`git rev-parse --git-dir 2> /dev/null`
+	action=`VCS_INFO_git_getaction "$gitdir"` && action="($action)"
+
+	if [[ -e "$gitdir/prompt-nostatus" ]]; then
+		echo "$name$action "
+		return
+	fi
+
+	st=`git status 2> /dev/null`
+	if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
+		color=%F{green}
+	elif [[ -n `echo "$st" | grep "^no changes added"` ]]; then
+		color=%F{yellow}
+	elif [[ -n `echo "$st" | grep "^# Changes to be committed"` ]]; then
+		color=%B%F{red}
+	else
+		color=%F{red}
+	fi
+	echo "${color}[${name}${action}]%f%b "
+}
+
+
+
+#################################################
+# プロンプト表示フォーマット
+# http://zsh.sourceforge.net/Doc/Release/zsh_12.html#SEC40
+#################################################
+# %% %を表示
+# %) )を表示
+# %l 端末名省略形
+# %M ホスト名(FQDN)
+# %m ホスト名(サブドメイン)
+# %n ユーザー名
+# %y 端末名
+# %# rootなら#、他は%を表示
+# %? 直前に実行したコマンドの結果コード
+# %d ワーキングディレクトリ %/ でも可
+# %~ ホームディレクトリからのパス
+# %h ヒストリ番号 %! でも可
+# %a The observed action, i.e. "logged on" or "logged off".
+# %S (%s) 反転モードの開始/終了 %S abc %s とするとabcが反転
+# %U (%u) 下線モードの開始/終了 %U abc %u とするとabcに下線
+# %B (%b) 強調モードの開始/終了 %B abc %b とするとabcを強調
+# %t 時刻表示(12時間単位、午前/午後つき) %@ でも可
+# %T 時刻表示(24時間表示)
+# %* 時刻表示(24時間表示秒付き)
+# %w 日表示(dd) 日本語だと 曜日 日
+# %W 年月日表示(mm/dd/yy)
+# %D 年月日表示(yy-mm-dd)
+
+
+## Prompt displaying configuration
+# 
+#
+autoload colors
+colors
+DEFAULT=$'%{\e[1;0m%}'
+RESET="%{${reset_color}%}"
+#GREEN=$'%{\e[1;32m%}'
+GREEN="%{${fg[green]}%}"
+#BLUE=$'%{\e[1;35m%}'
+BLUE="%{${fg[blue]}%}"
+RED="%{${fg[red]}%}"
+CYAN="%{${fg[cyan]}%}"
+MAGENTA="%{${fg[magenta]}%}"
+YELLOW="%{${fg[yellow]}%}"
+WHITE="%{${fg[white]}%}"
+
+
+case ${UID} in
+0)
+	#ROOT
+	PROMPT="[${BLUE}%n@%m${RESET}] ${BLUE}#${RESET} "
+	PROMPT2="%B${BLUE}%_#${RESET}%b "
+	SPROMPT="%B${BLUE}%r is correct? [n,y,a,e]:${RESET}%b "
+	RPROMPT="${BLUE}[%/]${RESET}"
+	[ -n "${REMOTEHOST}${SSH_CONNECTION}" ] && 
+		PROMPT="${CYAN}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
+	;;
+*)
+	#USER
+	PROMPT='${RESET}${BLUE}${WINDOW:+"[$WINDOW]"}${RESET}%% %{$fg_bold[blue]%}%n@%m ${RESET}in `prompt-git-current-branch`${YELLOW}%(5~,%-2~/.../%2~,%~)% ${RESET} :
+${WHITE}$ ${RESET}'
+	RPROMPT='${RESET} ${WHITE}[%D %*] ${RESET}'
+	SPROMPT="%B${BLUE}%r is correct? [n,y,a,e]:${RESET}%b "
+	[ -n "${REMOTEHOST}${SSH_CONNECTION}" ] && 
+		PROMPT="${CYAN}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
+	PROMPT="
+${PROMPT}"
+	;;
+esac
+
+# auto change directory
+#
+setopt auto_cd
+
+# auto directory pushd that you can get dirs list by cd -[tab]
+#
+setopt auto_pushd
+
+# command correct edition before each completion attempt
+#
+setopt correct
+
+# 無駄な末尾の / を削除する
+setopt auto_remove_slash
+
+bindkey -e
+bindkey "^p" history-beginning-search-backward-end
+bindkey "^n" history-beginning-search-forward-end
+bindkey "\\ep" history-beginning-search-backward-end
+bindkey "\\en" history-beginning-search-forward-end
+
+
+## Command history configuration
+#
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt hist_ignore_dups     # ignore duplication command history list
+setopt share_history        # share command history data
+
+
+## Completion configuration
+#
+#unsetopt auto_list
+unsetopt menu_complete
+
+fpath=(~/.zsh/functions/Completion ${fpath})
+autoload -Uz compinit
+compinit
+
+zstyle ':completion:*' menu select
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
+zstyle ':completion:*:descriptions' format '%BCompleting%b %U%d%u'
+
+typeset -ga chpwd_functions
+
+autoload -U is-at-least
+if is-at-least 4.3.11; then
+  autoload -U chpwd_recent_dirs cdr
+  chpwd_functions+=chpwd_recent_dirs
+  zstyle ":chpwd:*" recent-dirs-max 500
+  zstyle ":chpwd:*" recent-dirs-default true
+  zstyle ":completion:*" recent-dirs-insert always
+fi
+
+##↑Allow Key completion
+#
+#zstyle ':completion:*:default' menu select true
+
+## Alias configuration
+##
+## expand aliases before completing
+##
+#setopt complete_aliases     # aliased ls needs if file/dir completions work
+
+# 補完表示を全てする
+zstyle ':completion:*' verbose 'yes'
+## 補完の機能を拡張
+#zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
+## 補完候補で入力された文字でまず補完してみて、補完不可なら大文字小文字を変換して補完する
+#zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z} r:|[-_.]=**' '+m:{A-Z}={a-z} r:|[-_.]=**'
+
+
+alias where="command -v"
+alias j="jobs -l"
+
+case "${OSTYPE}" in
+freebsd*|darwin*)
+	alias ls="ls -G -w"
+	;;
+linux*)
+	alias ls="ls --color"
+	;;
+esac
+
+alias la="ls -a"
+alias lf="ls -F"
+alias ll="ls -l"
+
+alias du="du -h"
+alias df="df -h"
+
+alias su="su -l"
+
+alias cp="cp -i"
+
+# set terminal title including current directory
+#
+case "${TERM}" in
+kterm*|xterm*)
+	precmd() {
+		echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
+	}
+	export LSCOLORS=exfxcxdxbxegedabagacad
+	export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+	zstyle ':completion:*' list-colors \
+	'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
+	;;
+esac
+
+# peco
+#
+function peco-select-history() {
+	local tac
+	if which tac > /dev/null; then
+		tac="tac"
+	else
+		tac="tail -r"
+	fi
+	BUFFER=$(\history -n 1 | \
+		eval $tac | \
+		peco --query "$LBUFFER")
+	CURSOR=$#BUFFER
+	zle clear-screen
+}
+zle -N peco-select-history
+bindkey '^r' peco-select-history
+
+function peco-cdr () {
+	local selected_dir=$(cdr -l | awk '{ print $2 }' | peco)
+	if [ -n "$selected_dir" ]; then
+		BUFFER="cd ${selected_dir}"
+		zle accept-line
+	fi
+	zle clear-screen
+}
+zle -N peco-cdr
+bindkey '^xl' peco-cdr
+
+function peco-src () {
+	local selected_dir=$(ghq list --full-path | peco --query "$LBUFFER")
+	if [ -n "$selected_dir" ]; then
+		BUFFER="cd ${selected_dir}"
+		zle accept-line
+	fi
+	zle clear-screen
+}
+zle -N peco-src
+bindkey '^xs' peco-src
+
+
+alias -g GB='`git branch -a | peco --prompt "GIT BRANCH>" | head -n 1 | sed -e "s/^\*\s*//g"`'   
+alias -g GL='`git log --oneline --branches | peco --prompt "GIT LOG>" | awk "{print \\$1}"`'
+alias -g GS='`git status --short | peco --prompt "GIT STATUS>" | awk "{print \\$2}"`'
+
+

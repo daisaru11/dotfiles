@@ -1,0 +1,61 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  sudo: no
+
+  tasks:
+
+    - name: 'be sure homebrew is updated'
+      homebrew: update_homebrew=yes
+
+    - name: 'be sure homebrew formula is tapped'
+      homebrew_tap: tap={{ item }} state=present
+      with_items:
+        - 'peco/peco'
+        - 'motemen/ghq'
+        - 'caskroom/cask'
+        - 'caskroom/versions'
+
+    - name: 'be sure homebrew packages is installed'
+      homebrew: name={{ item.name }} state={{ item.state|default("latest") }} install_options={{ item.install_options|default() }}
+      with_items:
+        - { name: vim, install_options: with-lua }
+        - { name: tmux }
+        - { name: tig }
+        - { name: go }
+        - { name: peco }
+        - { name: ghq }
+        - { name: ctags }
+        - { name: brew-cask }
+        - { name: ag }
+
+    - name: 'be sure homebrew cask packages is installed'
+      homebrew_cask: name={{ item }} state=installed
+      with_items:
+        - virtualbox
+        - vagrant
+        - sublime-text3
+        - java
+
+
+    - name: 'be sure gitsubmodule is initialized'
+      command: git submodule update --init
+
+    - name: 'be sure dotfiles is linked'
+      file: src=~/ansible_dotfiles/dotfiles/{{ item.name }} dest=~/{{ item.dest_name if item.dest_name is defined else item.name }} state=link force=yes
+      with_items:
+        - { name: '.vimrc' }
+        - { name: '.vim' }
+        - { name: '.tmux.conf' }
+        - { name: '.tmux' }
+        - { name: '.screenrc' }
+        - { name: '.zshrc' }
+        - { name: '.zshenv_macos', dest_name: '.zshenv' }
+        - { name: '.gitconfig' }
+
+#    - name: 'be sure vim plugins are installed'
+#      shell: vim +NeoBundleInstall +qall
+
+
+
