@@ -2,8 +2,6 @@
 
 
 #
+	make self-install
 
-	brew update
-	brew install ansible
-
-	ansible-playbook local.yml -i hosts
+	make install
