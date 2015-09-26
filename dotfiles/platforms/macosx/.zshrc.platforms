@@ -1,0 +1,12 @@
+
+##
+# Vim
+#
+[ -x /usr/local/bin/vim ] && alias vim=/usr/local/bin/vim
+
+##
+# Direnv
+#
+if [ -x "`which direnv`" ]; then
+	eval "$(direnv hook zsh)"
+fi

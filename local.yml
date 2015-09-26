@@ -25,6 +25,7 @@
         - { name: '.screenrc' }
         - { name: '.zshrc' }
         - { name: 'platforms/macosx/.zshenv', dest_name: '.zshenv' }
+        - { name: 'platforms/macosx/.zshrc.platforms', dest_name: '.zshrc.platforms' }
         - { name: '.gitconfig' }
         - { name: 'platforms/macosx/.atom', dest_name: '.atom' }
 

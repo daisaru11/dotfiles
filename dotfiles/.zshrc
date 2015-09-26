@@ -267,3 +267,5 @@ alias -g GL='`git log --oneline --branches | peco --prompt "GIT LOG>" | awk "{pr
 alias -g GS='`git status --short | peco --prompt "GIT STATUS>" | awk "{print \\$2}"`'
 
 
+[ -f ~/.zshrc.platforms ] && source ~/.zshrc.platforms
+
