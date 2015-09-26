@@ -38,6 +38,7 @@
         - vagrant
         - sublime-text3
         - java
+        - atom
 
 
     - name: 'be sure gitsubmodule is initialized'
@@ -52,8 +53,9 @@
         - { name: '.tmux' }
         - { name: '.screenrc' }
         - { name: '.zshrc' }
-        - { name: '.zshenv_macos', dest_name: '.zshenv' }
+        - { name: 'platforms/macosx/.zshenv', dest_name: '.zshenv' }
         - { name: '.gitconfig' }
+        - { name: 'platforms/macosx/.atom', dest_name: '.atom' }
 
 #    - name: 'be sure vim plugins are installed'
 #      shell: vim +NeoBundleInstall +qall
