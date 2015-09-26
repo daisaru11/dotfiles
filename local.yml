@@ -29,6 +29,7 @@
         - { name: ctags }
         - { name: brew-cask }
         - { name: ag }
+        - { name: direnv }
 
     - name: 'be sure homebrew cask packages is installed'
       homebrew_cask: name={{ item }} state=installed
