@@ -9,37 +9,8 @@
     - name: 'be sure homebrew is updated'
       homebrew: update_homebrew=yes
 
-    - name: 'be sure homebrew formula is tapped'
-      homebrew_tap: tap={{ item }} state=present
-      with_items:
-        - 'peco/peco'
-        - 'motemen/ghq'
-        - 'caskroom/cask'
-        - 'caskroom/versions'
-
-    - name: 'be sure homebrew packages is installed'
-      homebrew: name={{ item.name }} state={{ item.state|default("latest") }} install_options={{ item.install_options|default() }}
-      with_items:
-        - { name: vim, install_options: with-lua }
-        - { name: tmux }
-        - { name: tig }
-        - { name: go }
-        - { name: peco }
-        - { name: ghq }
-        - { name: ctags }
-        - { name: brew-cask }
-        - { name: ag }
-        - { name: direnv }
-
-    - name: 'be sure homebrew cask packages is installed'
-      homebrew_cask: name={{ item }} state=installed
-      with_items:
-        - virtualbox
-        - vagrant
-        - sublime-text3
-        - java
-        - atom
-
+    - include: tasks/brew-package.yml
+    - include: tasks/brew-cask-package.yml
 
     - name: 'be sure gitsubmodule is initialized'
       command: git submodule update --init
