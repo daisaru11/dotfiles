@@ -6,4 +6,4 @@
 	brew update
 	brew install ansible
 
-	ansible-playbook playbook.yml -i hosts
+	ansible-playbook local.yml -i hosts
