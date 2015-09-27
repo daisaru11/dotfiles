@@ -13,23 +13,6 @@ export PATH=$HOME/bin:$PATH
 # EDITOR
 #
 export EDITOR=vim
-alias vi=vim
-
-[ -x /usr/local/bin/vim ] && alias vim=/usr/local/bin/vim
-#if [[ -x /Applications/MacVim.app/Contents/MacOS/Vim ]]; then
-#	alias vim=/Applications/MacVim.app/Contents/MacOS/Vim
-#fi
-
-##
-# SCREEN
-#
-[ -x /usr/local/bin/screen ] && alias screen=/usr/local/bin/screen
-[ -x $HOME/local/bin/screen ] && alias screen=$HOME/local/bin/screen
-
-##
-# ctags
-#
-[ -x /usr/local/Cellar/ctags/5.8/bin/ctags ] && alias screen=/usr/local/Cellar/ctags/5.8/bin/ctags
 
 ##
 # WORDCHARS
@@ -79,9 +62,3 @@ if [ -x "`which go`" ]; then
 fi
 
 
-##
-# Direnv
-#
-if [ -x "`which direnv`" ]; then
-	eval "$(direnv hook zsh)"
-fi

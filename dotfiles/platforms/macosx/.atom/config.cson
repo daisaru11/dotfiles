@@ -3,6 +3,11 @@
     userId: "df8e0b52-86bd-9653-6ebb-dfb5bc3c8753"
   welcome:
     showOnStartup: false
-  core: {}
+  core:
+    themes: [
+      "nucleus-dark-ui"
+      "gruvbox"
+    ]
   editor:
     invisibles: {}
+    fontSize: 13

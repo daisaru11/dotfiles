@@ -3,72 +3,6 @@
 # set prompt
 
 
-## functions
-#
-autoload -Uz VCS_INFO_get_data_git; VCS_INFO_get_data_git 2> /dev/null
-setopt prompt_subst
-
-function prompt-git-current-branch {
-	local name st color gitdir action
-	if [[ "$PWD" =~ '/\.git(/.*)?$' ]]; then
-		return
-	fi
-
-	name=`git rev-parse --abbrev-ref=loose HEAD 2> /dev/null`
-	if [[ -z $name ]]; then
-		return
-	fi
-
-	gitdir=`git rev-parse --git-dir 2> /dev/null`
-	action=`VCS_INFO_git_getaction "$gitdir"` && action="($action)"
-
-	if [[ -e "$gitdir/prompt-nostatus" ]]; then
-		echo "$name$action "
-		return
-	fi
-
-	st=`git status 2> /dev/null`
-	if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
-		color=%F{green}
-	elif [[ -n `echo "$st" | grep "^no changes added"` ]]; then
-		color=%F{yellow}
-	elif [[ -n `echo "$st" | grep "^# Changes to be committed"` ]]; then
-		color=%B%F{red}
-	else
-		color=%F{red}
-	fi
-	echo "${color}[${name}${action}]%f%b "
-}
-
-
-
-#################################################
-# プロンプト表示フォーマット
-# http://zsh.sourceforge.net/Doc/Release/zsh_12.html#SEC40
-#################################################
-# %% %を表示
-# %) )を表示
-# %l 端末名省略形
-# %M ホスト名(FQDN)
-# %m ホスト名(サブドメイン)
-# %n ユーザー名
-# %y 端末名
-# %# rootなら#、他は%を表示
-# %? 直前に実行したコマンドの結果コード
-# %d ワーキングディレクトリ %/ でも可
-# %~ ホームディレクトリからのパス
-# %h ヒストリ番号 %! でも可
-# %a The observed action, i.e. "logged on" or "logged off".
-# %S (%s) 反転モードの開始/終了 %S abc %s とするとabcが反転
-# %U (%u) 下線モードの開始/終了 %U abc %u とするとabcに下線
-# %B (%b) 強調モードの開始/終了 %B abc %b とするとabcを強調
-# %t 時刻表示(12時間単位、午前/午後つき) %@ でも可
-# %T 時刻表示(24時間表示)
-# %* 時刻表示(24時間表示秒付き)
-# %w 日表示(dd) 日本語だと 曜日 日
-# %W 年月日表示(mm/dd/yy)
-# %D 年月日表示(yy-mm-dd)
-
 
 ## Prompt displaying configuration
 # 
@@ -88,6 +22,22 @@ YELLOW="%{${fg[yellow]}%}"
 WHITE="%{${fg[white]}%}"
 
 
+## Git
+#
+setopt prompt_subst
+autoload -Uz vcs_info
+autoload -Uz add-zsh-hook
+
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr '%F{green}+%f'
+zstyle ':vcs_info:git:*' unstagedstr '%F{red}+%f'
+zstyle ':vcs_info:git:*' formats "%F{green}[%b] %c%u%f"
+zstyle ':vcs_info:git:*' actionformats "%F{green}[%b!%a] %c%u%f"
+
+_vcs_precmd () { vcs_info }
+add-zsh-hook precmd _vcs_precmd
+
 case ${UID} in
 0)
 	#ROOT
@@ -100,7 +50,7 @@ case ${UID} in
 	;;
 *)
 	#USER
-	PROMPT='${RESET}${BLUE}${WINDOW:+"[$WINDOW]"}${RESET}%% %{$fg_bold[blue]%}%n@%m ${RESET}in `prompt-git-current-branch`${YELLOW}%(5~,%-2~/.../%2~,%~)% ${RESET} :
+	PROMPT='${RESET}${BLUE}${WINDOW:+"[$WINDOW]"}${RESET}%% %{$fg_bold[blue]%}%n@%m ${RESET}@ ${vcs_info_msg_0_} ${YELLOW}%(5~,%-2~/.../%2~,%~)% ${RESET} :
 ${WHITE}$ ${RESET}'
 	RPROMPT='${RESET} ${WHITE}[%D %*] ${RESET}'
 	SPROMPT="%B${BLUE}%r is correct? [n,y,a,e]:${RESET}%b "
@@ -110,6 +60,8 @@ ${WHITE}$ ${RESET}'
 ${PROMPT}"
 	;;
 esac
+
+
 
 # auto change directory
 #
@@ -126,11 +78,6 @@ setopt correct
 # 無駄な末尾の / を削除する
 setopt auto_remove_slash
 
-bindkey -e
-bindkey "^p" history-beginning-search-backward-end
-bindkey "^n" history-beginning-search-forward-end
-bindkey "\\ep" history-beginning-search-backward-end
-bindkey "\\en" history-beginning-search-forward-end
 
 
 ## Command history configuration
@@ -140,6 +87,7 @@ HISTSIZE=10000
 SAVEHIST=10000
 setopt hist_ignore_dups     # ignore duplication command history list
 setopt share_history        # share command history data
+
 
 
 ## Completion configuration
@@ -184,6 +132,10 @@ zstyle ':completion:*' verbose 'yes'
 #zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z} r:|[-_.]=**' '+m:{A-Z}={a-z} r:|[-_.]=**'
 
 
+
+## Alias
+#
+#
 alias where="command -v"
 alias j="jobs -l"
 
@@ -267,5 +219,17 @@ alias -g GL='`git log --oneline --branches | peco --prompt "GIT LOG>" | awk "{pr
 alias -g GS='`git status --short | peco --prompt "GIT STATUS>" | awk "{print \\$2}"`'
 
 
+## Key binds
+#
+#
+bindkey -e
+bindkey "^p" history-beginning-search-backward-end
+bindkey "^n" history-beginning-search-forward-end
+bindkey "\\ep" history-beginning-search-backward-end
+bindkey "\\en" history-beginning-search-forward-end
+
+
+## Extra settings
+#
 [ -f ~/.zshrc.platforms ] && source ~/.zshrc.platforms
 

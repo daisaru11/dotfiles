@@ -8,3 +8,6 @@ self-install:
 
 install:
 	ansible-playbook local.yml -i hosts
+
+export-atom-package:
+	apm list -bi > atom_packages
