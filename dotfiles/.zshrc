@@ -173,6 +173,17 @@ kterm*|xterm*)
 	;;
 esac
 
+
+## Key binds
+#
+#
+bindkey -e
+bindkey "^p" history-beginning-search-backward-end
+bindkey "^n" history-beginning-search-forward-end
+bindkey "\\ep" history-beginning-search-backward-end
+bindkey "\\en" history-beginning-search-forward-end
+
+
 # peco
 #
 function peco-select-history() {
@@ -217,17 +228,6 @@ bindkey '^xs' peco-src
 alias -g GB='`git branch -a | peco --prompt "GIT BRANCH>" | head -n 1 | sed -e "s/^\*\s*//g"`'   
 alias -g GL='`git log --oneline --branches | peco --prompt "GIT LOG>" | awk "{print \\$1}"`'
 alias -g GS='`git status --short | peco --prompt "GIT STATUS>" | awk "{print \\$2}"`'
-
-
-## Key binds
-#
-#
-bindkey -e
-bindkey "^p" history-beginning-search-backward-end
-bindkey "^n" history-beginning-search-forward-end
-bindkey "\\ep" history-beginning-search-backward-end
-bindkey "\\en" history-beginning-search-forward-end
-
 
 ## Extra settings
 #
