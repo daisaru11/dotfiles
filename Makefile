@@ -1,13 +1,13 @@
 
 
-all: install
+all: macos-install
 
-self-install:
+macos-self-install:
 	brew update
 	brew install ansible
 
-install:
-	ansible-playbook local.yml -i hosts
+macos-install:
+	cd macos && ansible-playbook local.yml -i hosts
 
-export-atom-package:
+macos-export-atom-package:
 	apm list -bi > atom_packages
