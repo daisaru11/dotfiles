@@ -4,7 +4,6 @@
   with_items:
     - virtualbox
     - vagrant
-    - sublime-text3
     - java
     - atom
 
