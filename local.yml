@@ -16,7 +16,7 @@
       command: git submodule update --init
 
     - name: 'be sure dotfiles is linked'
-      file: src=~/ansible_dotfiles/dotfiles/{{ item.name }} dest=~/{{ item.dest_name if item.dest_name is defined else item.name }} state=link force=yes
+      file: src=~/dotfiles/dotfiles/{{ item.name }} dest=~/{{ item.dest_name if item.dest_name is defined else item.name }} state=link force=yes
       with_items:
         - { name: '.vimrc' }
         - { name: '.vim' }
