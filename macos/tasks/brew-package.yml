@@ -14,4 +14,6 @@
     - { name: nodebrew }
     - { name: jq }
     - { name: wget }
+    - { name: rbenv }
+    - { name: ruby-build }
 
