@@ -146,6 +146,8 @@ NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'shawncplus/phpcomplete.vim'
 NeoBundle 'fatih/vim-go'
+NeoBundle 'leafgarland/typescript-vim'
+
 
 " airline
 "let g:airline_enable_fugitive=1
