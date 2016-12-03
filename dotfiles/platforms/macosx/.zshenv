@@ -4,6 +4,7 @@
 #
 export LANG=ja_JP.UTF-8
 
+export PATH=/usr/local/bin:$PATH
 ##
 # home bin
 #
@@ -60,5 +61,4 @@ if [ -x "`which go`" ]; then
 	export GOPATH=$HOME
 	export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 fi
-
 
