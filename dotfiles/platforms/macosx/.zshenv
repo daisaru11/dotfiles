@@ -4,7 +4,12 @@
 #
 export LANG=ja_JP.UTF-8
 
+##
+# PATH
+# see http://karur4n.hatenablog.com/entry/2016/01/18/100000
+setopt no_global_rcs
 export PATH=/usr/local/bin:$PATH
+
 ##
 # home bin
 #
