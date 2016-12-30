@@ -11,9 +11,11 @@
     - { name: ctags }
     - { name: ag }
     - { name: direnv }
-    - { name: nodebrew }
+  #    - { name: nodebrew }
     - { name: jq }
     - { name: wget }
     - { name: rbenv }
     - { name: ruby-build }
+    - { name: reattach-to-user-namespace }
+    - { name: awscli }
 
