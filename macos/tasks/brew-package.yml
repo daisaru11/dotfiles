@@ -18,4 +18,6 @@
     - { name: ruby-build }
     - { name: reattach-to-user-namespace }
     - { name: awscli }
+    - { name: packer }
+    - { name: terraform }
 
