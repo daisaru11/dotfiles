@@ -224,6 +224,10 @@ function peco-src () {
 zle -N peco-src
 bindkey '^xs' peco-src
 
+function pero() {
+	ag $@ . | peco --exec 'awk -F : '"'"'{print "+" $2 " " $1}'"'"' | xargs less '
+}
+
 
 alias -g GB='`git branch -a | peco --prompt "GIT BRANCH>" | head -n 1 | sed -e "s/^\*\s*//g"`'   
 alias -g GL='`git log --oneline --branches | peco --prompt "GIT LOG>" | awk "{print \\$1}"`'
