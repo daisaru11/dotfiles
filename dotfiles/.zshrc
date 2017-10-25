@@ -233,6 +233,9 @@ alias -g GB='`git branch -a | peco --prompt "GIT BRANCH>" | head -n 1 | sed -e "
 alias -g GL='`git log --oneline --branches | peco --prompt "GIT LOG>" | awk "{print \\$1}"`'
 alias -g GS='`git status --short | peco --prompt "GIT STATUS>" | awk "{print \\$2}"`'
 
+alias vi="nvim"
+alias vim="nvim"
+
 ## Extra settings
 #
 [ -f ~/.zshrc.platforms ] && source ~/.zshrc.platforms
