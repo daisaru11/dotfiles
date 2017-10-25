@@ -2,7 +2,7 @@
 - name: 'be sure homebrew packages is installed'
   homebrew: name={{ item.name }} state={{ item.state|default("latest") }} install_options={{ item.install_options|default() }}
   with_items:
-    - { name: vim, install_options: with-lua }
+    - { name: neovim }
     - { name: tmux }
     - { name: tig }
     - { name: go }

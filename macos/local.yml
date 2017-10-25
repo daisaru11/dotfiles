@@ -20,15 +20,11 @@
       with_items:
         - { name: '.vimrc' }
         - { name: '.vim' }
+        - { name: '.config/nvim' }
         - { name: '.tmux.conf' }
         - { name: '.tmux' }
         - { name: '.screenrc' }
         - { name: '.zshrc' }
         - { name: 'platforms/macosx/.zshenv', dest_name: '.zshenv' }
         - { name: 'platforms/macosx/.zshrc.platforms', dest_name: '.zshrc.platforms' }
-
-#    - name: 'be sure vim plugins are installed'
-#      shell: vim +NeoBundleInstall +qall
-
-
 
