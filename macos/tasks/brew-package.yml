@@ -11,13 +11,12 @@
     - { name: ctags }
     - { name: ag }
     - { name: direnv }
-  #    - { name: nodebrew }
     - { name: jq }
     - { name: wget }
     - { name: rbenv }
     - { name: ruby-build }
-    - { name: reattach-to-user-namespace }
     - { name: awscli }
     - { name: packer }
-    - { name: terraform }
+#    - { name: terraform }
+    - { name: tfenv }
 
