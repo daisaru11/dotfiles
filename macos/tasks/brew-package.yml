@@ -7,8 +7,7 @@
     - { name: tig }
     - { name: go }
     - { name: peco }
-    - { name: ghq }
-    - { name: ctags }
+    - { name: fish }
     - { name: ag }
     - { name: direnv }
     - { name: jq }

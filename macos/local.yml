@@ -24,7 +24,8 @@
         - { name: '.tmux.conf' }
         - { name: '.tmux' }
         - { name: '.screenrc' }
-        - { name: '.zshrc' }
-        - { name: 'platforms/macosx/.zshenv', dest_name: '.zshenv' }
-        - { name: 'platforms/macosx/.zshrc.platforms', dest_name: '.zshrc.platforms' }
+        - { name: '.config/fish/fishfile' }
+        - { name: '.config/fish/config.fish' }
+        - { name: '.config/fish/env.fish' }
+        - { name: '.config/fish/func.fish' }
 
