@@ -3,6 +3,9 @@ autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "norm
 set swapfile
 set directory=/tmp
 
+set ttimeout
+set ttimeoutlen=0
+
 "#######################
 " Display
 "#######################
