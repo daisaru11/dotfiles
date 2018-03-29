@@ -23,6 +23,7 @@
         - { name: '.config/nvim' }
         - { name: '.tmux.conf' }
         - { name: '.tmux' }
+        - { name: '.tigrc' }
         - { name: '.screenrc' }
         - { name: '.config/fish/fishfile' }
         - { name: '.config/fish/config.fish' }
