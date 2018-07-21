@@ -7,3 +7,6 @@ rbenv init - | source
 # Rustup
 # set -U fish_user_paths $fish_user_paths $HOME/.cargo/bin
 
+# Go bin
+set -U fish_user_paths $fish_user_paths $HOME/go/bin 
+
