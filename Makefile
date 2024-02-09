@@ -3,9 +3,8 @@
 all: macos-install
 
 macos-self-install:
-	brew update
-	brew install ansible
+	/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 macos-install:
-	cd macos && ansible-playbook local.yml -i hosts
+	./macos_install.sh
 
