@@ -9,7 +9,7 @@ eval "$(sheldon source)"
 eval "$(starship init zsh)"
 
 # asdf
-. /usr/local/opt/asdf/libexec/asdf.sh
+. $(brew --prefix asdf)/libexec/asdf.sh
 
 
 # options
