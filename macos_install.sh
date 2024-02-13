@@ -25,4 +25,8 @@ mkdir -p ~/.config/karabiner
 ln -sf ~/dotfiles/dotfiles/.config/karabiner/karabiner.json ~/.config/karabiner/karabiner.json
 
 
+ln -sf ~/dotfiles/dotfiles/sublime-text-3/Packages/User/Package\ Control.sublime-settings ~/Library/Application\ Support/Sublime\ Text/Packages/User/Package\ Control.sublime-settings
+ln -sf ~/dotfiles/dotfiles/sublime-text-3/Packages/User/Preferences.sublime-settings ~/Library/Application\ Support/Sublime\ Text/Packages/User/Preferences.sublime-settings
+
+
 ln -sf ~/dotfiles/Brewfile ~/Brewfile

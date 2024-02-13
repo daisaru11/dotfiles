@@ -1,5 +1,5 @@
 brew "asdf"
-brew "awscli", link: false
+brew "awscli"
 brew "caddy"
 brew "go"
 brew "direnv"
@@ -29,6 +29,7 @@ brew "mas"
 cask "sublime-text"
 cask "raycast"
 cask "visual-studio-code"
+cask "session-manager-plugin"
 
 mas "Display Menu", id: 549083868
 

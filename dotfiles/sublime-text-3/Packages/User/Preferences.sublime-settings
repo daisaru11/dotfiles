@@ -3,9 +3,7 @@
 	"font_size": 19,
 	"ignored_packages":
 	[
-		"Six",
 		"Vintage",
-		"Vintageous",
 	],
 	"neovintageous_build_version": 13200,
 	"theme": "Default.sublime-theme",
