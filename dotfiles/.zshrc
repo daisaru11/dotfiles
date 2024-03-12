@@ -1,3 +1,6 @@
+# brew
+export HOMEBREW_NO_AUTO_UPDATE=1
+
 # z
 . `brew --prefix`/etc/profile.d/z.sh
 

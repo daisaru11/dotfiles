@@ -12,4 +12,5 @@
 	"vintageous_use_ctrl_keys": true,
 	"vintageous_use_super_keys": false,
 	"save_on_focus_lost": true,
+	"index_files": true,
 }
